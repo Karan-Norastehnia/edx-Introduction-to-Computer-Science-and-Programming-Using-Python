@@ -135,3 +135,5 @@ def hangman(secretWord):
 
 secretWord = chooseWord(wordlist).lower()
 hangman(secretWord)
+
+input('Press any key to continue')
