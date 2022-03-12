@@ -1,4 +1,4 @@
-import random 
+import random
 
 class Hand(object):
     def __init__(self, n):
@@ -7,6 +7,7 @@ class Hand(object):
 
         n: integer, the size of the hand.
         '''
+
         assert type(n) == int
         self.HAND_SIZE = n
         self.VOWELS = 'aeiou'
@@ -19,20 +20,21 @@ class Hand(object):
         '''
         Deals a new hand, and sets the hand attribute to the new hand.
         '''
+
         # Set self.hand to a new, empty dictionary
         self.hand = {}
 
         # Build the hand
         numVowels = self.HAND_SIZE // 3
-    
+
         for i in range(numVowels):
             x = self.VOWELS[random.randrange(0,len(self.VOWELS))]
             self.hand[x] = self.hand.get(x, 0) + 1
-        
+
         for i in range(numVowels, self.HAND_SIZE):    
             x = self.CONSONANTS[random.randrange(0,len(self.CONSONANTS))]
             self.hand[x] = self.hand.get(x, 0) + 1
-            
+
     def setDummyHand(self, handString):
         '''
         Allows you to set a dummy hand. Useful for testing your implementation.
@@ -43,16 +45,17 @@ class Hand(object):
         This method converts sets the hand attribute to a dictionary
         containing the letters of handString.
         '''
+
         assert len(handString) == self.HAND_SIZE, "Length of handString ({0}) must equal length of HAND_SIZE ({1})".format(len(handString), self.HAND_SIZE)
         self.hand = {}
         for char in handString:
             self.hand[char] = self.hand.get(char, 0) + 1
 
-
     def calculateLen(self):
         '''
         Calculate the length of the hand.
         '''
+
         ans = 0
         for k in self.hand:
             ans += self.hand[k]
@@ -62,6 +65,7 @@ class Hand(object):
         '''
         Display a string representation of the hand.
         '''
+
         output = ''
         hand_keys = sorted(self.hand.keys())
         for letter in hand_keys:
@@ -78,14 +82,21 @@ class Hand(object):
 
         Returns True if the word was able to be made with the letter in
         the hand; False otherwise.
-        
+
         word: string
         returns: Boolean (if the word was or was not made)
         """
-        # Your code here
-        raise NotImplementedError()
 
-    
+        for char in word:
+            if char not in self.hand: return False
+
+        for char in word:
+            if char in self.hand:
+                self.hand[char] -= 1
+                if self.hand[char] == 0: del self.hand[char]
+
+        return True
+
 myHand = Hand(7)
 print(myHand)
 print(myHand.calculateLen())
@@ -96,3 +107,5 @@ print(myHand.calculateLen())
 
 myHand.update('za')
 print(myHand)
+
+print(myHand.hand)
